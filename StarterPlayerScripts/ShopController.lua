@@ -32,10 +32,22 @@ local player = Players.LocalPlayer
 -- ─────────────────────────────────────────────
 --  REMOTE EVENTS
 -- ─────────────────────────────────────────────
-local RemoteEvents = ReplicatedStorage:WaitForChild("RemoteEvents", 15)
+-- Wait up to 30s for MainGameScript to create the RemoteEvents folder
+local RemoteEvents
+local elapsed = 0
+repeat
+	RemoteEvents = ReplicatedStorage:FindFirstChild("RemoteEvents")
+	if not RemoteEvents then task.wait(0.5) end
+	elapsed = elapsed + 0.5
+until RemoteEvents or elapsed >= 30
+
+if not RemoteEvents then
+	warn("[ShopController] RemoteEvents folder never appeared. Check MainGameScript.")
+end
 
 local function getRemote(name)
-	return RemoteEvents and RemoteEvents:WaitForChild(name, 10)
+	if not RemoteEvents then return nil end
+	return RemoteEvents:WaitForChild(name, 15)
 end
 
 -- ─────────────────────────────────────────────

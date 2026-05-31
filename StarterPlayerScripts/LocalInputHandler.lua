@@ -20,11 +20,11 @@ local player = Players.LocalPlayer
 --  ShopController.lua also runs at startup; wait for it to register.
 -- ─────────────────────────────────────────────
 local function waitForGlobal(name, timeout)
-	timeout = timeout or 15
+	timeout = timeout or 30
 	local elapsed = 0
 	while not _G[name] and elapsed < timeout do
-		task.wait(0.05)
-		elapsed = elapsed + 0.05
+		task.wait(0.1)
+		elapsed = elapsed + 0.1
 	end
 	return _G[name]
 end
