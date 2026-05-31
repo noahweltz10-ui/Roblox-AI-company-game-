@@ -323,9 +323,9 @@ totalEarnedLabel.TextSize   = 13
 --  INCOME RATE UPDATE
 --  We request income rate from server every 5 seconds to keep it accurate.
 -- ─────────────────────────────────────────────
-local RemoteEvents  = ReplicatedStorage:WaitForChild("RemoteEvents", 15)
-local requestIncome = RemoteEvents and RemoteEvents:FindFirstChild("RequestIncome")
-local incomeResponse = RemoteEvents and RemoteEvents:WaitForChild("IncomeResponse", 10)
+local RemoteEvents  = ReplicatedStorage:WaitForChild("RemoteEvents", 30)
+local requestIncome = RemoteEvents and RemoteEvents:WaitForChild("RequestIncome",  20)
+local incomeResponse = RemoteEvents and RemoteEvents:WaitForChild("IncomeResponse", 20)
 
 if incomeResponse then
 	incomeResponse.OnClientEvent:Connect(function(incomePerSecond)

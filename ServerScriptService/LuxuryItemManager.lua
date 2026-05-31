@@ -26,8 +26,8 @@
 
 local Players = game:GetService("Players")
 
-local GameConfig   = require(game.ReplicatedStorage.GameConfig)
-local LuxuryConfig = require(game.ReplicatedStorage.LuxuryConfig)
+local GameConfig   = require(game.ReplicatedStorage:WaitForChild("GameConfig",   30))
+local LuxuryConfig = require(game.ReplicatedStorage:WaitForChild("LuxuryConfig", 30))
 
 -- ─────────────────────────────────────────────
 --  WAIT FOR DEPENDENCIES

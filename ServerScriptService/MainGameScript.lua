@@ -293,8 +293,12 @@ local function printStartupDiagnostics()
 	print(string.format("  Office Tiers: %d", #GameConfig.OfficeUpgrades))
 	print(string.format("  Employees:    %d types", #GameConfig.Employees))
 
-	local LuxuryConfig = require(game.ReplicatedStorage.LuxuryConfig)
-	print(string.format("  Luxury Items: %d total", #LuxuryConfig.Items))
+	local ok, LuxuryConfig = pcall(function()
+		return require(game.ReplicatedStorage:WaitForChild("LuxuryConfig", 10))
+	end)
+	if ok and LuxuryConfig then
+		print(string.format("  Luxury Items: %d total", #LuxuryConfig.Items))
+	end
 	print("═══════════════════════════════════════")
 end
 
