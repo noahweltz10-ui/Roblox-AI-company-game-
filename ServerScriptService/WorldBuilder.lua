@@ -13,6 +13,14 @@ local GameConfig = require(game.ReplicatedStorage:WaitForChild("GameConfig", 30)
 --  LIGHTING SETUP
 -- ─────────────────────────────────────────────
 local function setupLighting()
+	-- Remove any existing effects to prevent duplicates stacking up
+	for _, child in ipairs(Lighting:GetChildren()) do
+		if child:IsA("Atmosphere") or child:IsA("Sky") or child:IsA("BloomEffect")
+			or child:IsA("ColorCorrectionEffect") or child:IsA("SunRaysEffect") then
+			child:Destroy()
+		end
+	end
+
 	Lighting.Ambient          = Color3.fromRGB(80, 80, 90)
 	Lighting.Brightness       = 2
 	Lighting.GlobalShadows    = true
