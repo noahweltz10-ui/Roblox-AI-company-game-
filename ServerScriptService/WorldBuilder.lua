@@ -107,11 +107,11 @@ local function buildTerrain()
 	local TERRAIN_SIZE  = 1200
 	local TERRAIN_DEPTH = 4
 
-	-- LeafyGrass = short compact ground, no tall blades
+	-- Ground material: flat brown dirt, no grass blades at all
 	terrain:FillBlock(
 		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
 		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
-		Enum.Material.LeafyGrass
+		Enum.Material.Ground
 	)
 
 	terrain:FillBlock(
@@ -368,5 +368,5 @@ buildTerrain()
 upgradePlotFloors()
 addTrees()
 addStreetLights()
-startDayCycle()
+-- Day cycle is handled by TimeOfDayGui on each client to avoid lighting conflicts
 print("[WorldBuilder] World build complete.")
