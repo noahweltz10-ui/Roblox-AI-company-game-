@@ -30,6 +30,7 @@ GameConfig.OfficeUpgrades = {
 		description = "Your humble beginning. A single laptop on a fold-out table.",
 		price       = 0,
 		incomeRate  = 1,
+		imageId     = "rbxassetid://6277375466",  -- Laptop / computer icon (Roblox catalog)
 		order       = 1,
 	},
 	{
@@ -38,6 +39,7 @@ GameConfig.OfficeUpgrades = {
 		description = "Moved out of your bedroom. The classic startup garage.",
 		price       = 500,
 		incomeRate  = 10,
+		imageId     = "rbxassetid://2948768",     -- Roblox Building Decal D / garage structure (roblox.com/library/2948768)
 		order       = 2,
 	},
 	{
@@ -46,6 +48,7 @@ GameConfig.OfficeUpgrades = {
 		description = "A real desk, real chairs, and way too much free coffee.",
 		price       = 2500,
 		incomeRate  = 50,
+		imageId     = "rbxassetid://5539575",     -- Roblox Castle / small office building (roblox.com/library/5539575)
 		order       = 3,
 	},
 	{
@@ -54,6 +57,7 @@ GameConfig.OfficeUpgrades = {
 		description = "Ping pong tables, nap pods, and a rooftop garden.",
 		price       = 15000,
 		incomeRate  = 200,
+		imageId     = "rbxassetid://317674349",   -- Mad Games Map / tech campus grounds (roblox.com/library/317674349)
 		order       = 4,
 	},
 	{
@@ -62,6 +66,7 @@ GameConfig.OfficeUpgrades = {
 		description = "Your name is on the building. Literally.",
 		price       = 100000,
 		incomeRate  = 500,
+		imageId     = "rbxassetid://2215219927",  -- Castle 2 / tall structure (roblox.com/library/2215219927)
 		order       = 5,
 	},
 	{
@@ -70,6 +75,7 @@ GameConfig.OfficeUpgrades = {
 		description = "You're not a startup anymore. You run the world's AI empire.",
 		price       = 1000000,
 		incomeRate  = 1000,
+		imageId     = "rbxassetid://20379895",    -- Space Decal 2 / global scene (roblox.com/library/20379895)
 		order       = 6,
 	},
 }
@@ -84,6 +90,7 @@ GameConfig.Employees = {
 		description = "Fresh out of bootcamp. Enthusiastic but needs a lot of guidance.",
 		price       = 1000,
 		incomeBonus = 5,      -- +$5/s
+		imageId     = "rbxassetid://174792017",   -- Statue / young developer figure (roblox.com/library/174792017)
 		shirtColor  = BrickColor.new("Bright blue"),
 		hatColor    = BrickColor.new("White"),
 		order       = 1,
@@ -94,6 +101,7 @@ GameConfig.Employees = {
 		description = "10 years of experience. Has opinions about semicolons.",
 		price       = 5000,
 		incomeBonus = 20,     -- +$20/s
+		imageId     = "rbxassetid://392990034",   -- Personal Statue / experienced figure (roblox.com/library/392990034)
 		shirtColor  = BrickColor.new("Bright green"),
 		hatColor    = BrickColor.new("Dark grey"),
 		order       = 2,
@@ -104,6 +112,7 @@ GameConfig.Employees = {
 		description = "Manages teams AND auto-collects income. Worth every penny.",
 		price       = 25000,
 		incomeBonus = 100,    -- +$100/s
+		imageId     = "rbxassetid://415565819",   -- Aesthetic Statue / tech manager (roblox.com/library/415565819)
 		autoCollect = true,
 		shirtColor  = BrickColor.new("Bright orange"),
 		hatColor    = BrickColor.new("Black"),
@@ -115,6 +124,7 @@ GameConfig.Employees = {
 		description = "Chief Technology Officer. Has a standing desk AND a treadmill.",
 		price       = 100000,
 		incomeBonus = 500,    -- +$500/s
+		imageId     = "rbxassetid://43118538",    -- Roblox Golden Statue / prestigious executive (roblox.com/library/43118538)
 		shirtColor  = BrickColor.new("Hot pink"),
 		hatColor    = BrickColor.new("Gold"),
 		order       = 4,

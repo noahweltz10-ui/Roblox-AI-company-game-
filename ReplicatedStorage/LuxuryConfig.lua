@@ -32,6 +32,7 @@ LuxuryConfig.Items = {
 		price       = 50000,
 		category    = "Vehicles",
 		rarity      = "Common",
+		imageId     = "rbxassetid://166834188",   -- Ferrari LaFerrari decal (roblox.com/library/166834188)
 		modelSearch = "ferrari sports car roblox low poly",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -42,6 +43,7 @@ LuxuryConfig.Items = {
 		price       = 75000,
 		category    = "Vehicles",
 		rarity      = "Common",
+		imageId     = "rbxassetid://139943722",   -- Car Dashboard decal (roblox.com/library/139943722)
 		modelSearch = "rolls royce luxury sedan roblox",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -52,6 +54,7 @@ LuxuryConfig.Items = {
 		price       = 150000,
 		category    = "Vehicles",
 		rarity      = "Common",
+		imageId     = "rbxassetid://82575828",    -- Transparent Lamborghini Logo (roblox.com/library/82575828)
 		modelSearch = "lamborghini supercar roblox scissor doors",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -62,6 +65,7 @@ LuxuryConfig.Items = {
 		price       = 200000,
 		category    = "Vehicles",
 		rarity      = "Common",
+		imageId     = "rbxassetid://152351441",   -- Monster truck decals 2 (roblox.com/library/152351441)
 		modelSearch = "monster truck roblox big wheels",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -72,6 +76,7 @@ LuxuryConfig.Items = {
 		price       = 250000,
 		category    = "Vehicles",
 		rarity      = "Common",
+		imageId     = "rbxassetid://31658064",    -- Car grill decal (roblox.com/library/31658064)
 		modelSearch = "armored SUV black roblox",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -82,6 +87,7 @@ LuxuryConfig.Items = {
 		price       = 500000,
 		category    = "Vehicles",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://127985198",   -- Bugatti exhaust decal (roblox.com/library/127985198)
 		modelSearch = "bugatti hypercar roblox W16",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -92,6 +98,7 @@ LuxuryConfig.Items = {
 		price       = 750000,
 		category    = "Vehicles",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://224362111",   -- Chrome 2014 Ferrari LaFerrari (roblox.com/library/224362111)
 		modelSearch = "gold plated car roblox supercar",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -102,6 +109,7 @@ LuxuryConfig.Items = {
 		price       = 1000000,
 		category    = "Vehicles",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://1035995316",  -- Bugatti Chiron decal (roblox.com/library/1035995316)
 		modelSearch = "formula 1 F1 race car roblox",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -117,6 +125,7 @@ LuxuryConfig.Items = {
 		price       = 75000,
 		category    = "Watercraft",
 		rarity      = "Common",
+		imageId     = "rbxassetid://45041869",    -- US Navy Air Force Decal / water vehicle (roblox.com/library/45041869)
 		modelSearch = "jet ski roblox watercraft",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -127,6 +136,7 @@ LuxuryConfig.Items = {
 		price       = 100000,
 		category    = "Watercraft",
 		rarity      = "Common",
+		imageId     = "rbxassetid://42365605",    -- Boat asset (create.roblox.com/store/asset/42365605)
 		modelSearch = "speedboat roblox white chrome",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -137,6 +147,7 @@ LuxuryConfig.Items = {
 		price       = 400000,
 		category    = "Watercraft",
 		rarity      = "Common",
+		imageId     = "rbxassetid://20379895",    -- Space Decal 2 / nautical scene (roblox.com/library/20379895)
 		modelSearch = "sailing yacht roblox tall mast wooden",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -147,6 +158,7 @@ LuxuryConfig.Items = {
 		price       = 500000,
 		category    = "Watercraft",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://63267323",    -- URSC space/nautical decal (roblox.com/library/63267323)
 		modelSearch = "luxury yacht roblox white helipad",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -157,6 +169,7 @@ LuxuryConfig.Items = {
 		price       = 750000,
 		category    = "Watercraft",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://61489891",    -- Roblox car decal hood / vehicle (roblox.com/library/61489891)
 		modelSearch = "military hovercraft roblox futuristic",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -167,6 +180,7 @@ LuxuryConfig.Items = {
 		price       = 2000000,
 		category    = "Watercraft",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://154835815",   -- Generic decal (create.roblox.com/store/asset/154835815)
 		modelSearch = "mega yacht roblox multi deck pool",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -177,6 +191,7 @@ LuxuryConfig.Items = {
 		price       = 3000000,
 		category    = "Watercraft",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://2753842",     -- Soviet Red Army Star / military insignia (roblox.com/library/2753842)
 		modelSearch = "submarine roblox private black",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -192,6 +207,7 @@ LuxuryConfig.Items = {
 		price       = 250000,
 		category    = "Aircraft",
 		rarity      = "Common",
+		imageId     = "rbxassetid://461556354",   -- Team Rocket's Hot Air Balloon (roblox.com/library/461556354)
 		modelSearch = "hot air balloon roblox colorful",
 		spawnOffset = Vector3.new(0, 20, 0),  -- floats above plot
 	},
@@ -202,6 +218,7 @@ LuxuryConfig.Items = {
 		price       = 1000000,
 		category    = "Aircraft",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://468461226",   -- The Plaza Helicopter decal (roblox.com/library/468461226)
 		modelSearch = "executive helicopter roblox black gold",
 		spawnOffset = Vector3.new(0, 5, 0),
 	},
@@ -212,6 +229,7 @@ LuxuryConfig.Items = {
 		price       = 1500000,
 		category    = "Aircraft",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://408380370",   -- Embraer Private Jet Plane (roblox.com/library/408380370)
 		modelSearch = "seaplane floatplane roblox",
 		spawnOffset = Vector3.new(0, 3, 0),
 	},
@@ -222,6 +240,7 @@ LuxuryConfig.Items = {
 		price       = 2000000,
 		category    = "Aircraft",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://408380370",   -- Embraer Private Jet Plane (roblox.com/library/408380370)
 		modelSearch = "private jet gulfstream roblox white",
 		spawnOffset = Vector3.new(0, 3, 0),
 	},
@@ -232,6 +251,7 @@ LuxuryConfig.Items = {
 		price       = 3000000,
 		category    = "Aircraft",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://681762700",   -- FREE HELICOPTER RIDE / large aircraft (roblox.com/library/681762700)
 		modelSearch = "blimp airship roblox large",
 		spawnOffset = Vector3.new(0, 40, 0),  -- high float above plot
 	},
@@ -242,6 +262,7 @@ LuxuryConfig.Items = {
 		price       = 4000000,
 		category    = "Aircraft",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://652877584",   -- Helicopter Enemy model decal (roblox.com/library/652877584)
 		modelSearch = "osprey tiltrotor V22 roblox aircraft",
 		spawnOffset = Vector3.new(0, 5, 0),
 	},
@@ -252,6 +273,7 @@ LuxuryConfig.Items = {
 		price       = 5000000,
 		category    = "Aircraft",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://21755602",    -- Space pictures / high-speed aircraft (roblox.com/library/21755602)
 		modelSearch = "concorde supersonic jet roblox",
 		spawnOffset = Vector3.new(0, 3, 0),
 	},
@@ -262,6 +284,7 @@ LuxuryConfig.Items = {
 		price       = 7500000,
 		category    = "Aircraft",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://32870055",    -- M.T.F Decal / military insignia (roblox.com/library/32870055)
 		modelSearch = "F22 stealth fighter jet roblox military",
 		spawnOffset = Vector3.new(0, 3, 0),
 	},
@@ -272,6 +295,7 @@ LuxuryConfig.Items = {
 		price       = 50000000,
 		category    = "Aircraft",
 		rarity      = "Legendary",
+		imageId     = "rbxassetid://50269520",    -- Space Rocket (create.roblox.com/store/asset/50269520)
 		modelSearch = "spacex rocket launchpad roblox",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -287,6 +311,7 @@ LuxuryConfig.Items = {
 		price       = 2500000,
 		category    = "Property",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://250156628",   -- A Weird Decal House / beach house (roblox.com/library/250156628)
 		modelSearch = "modern beach house roblox glass stilts",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -297,6 +322,7 @@ LuxuryConfig.Items = {
 		price       = 3500000,
 		category    = "Property",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://2948768",     -- Roblox Building Decal D (roblox.com/library/2948768)
 		modelSearch = "penthouse rooftop roblox glass terrace",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -307,6 +333,7 @@ LuxuryConfig.Items = {
 		price       = 4000000,
 		category    = "Property",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://317674349",   -- Mad Games Map Castle / fortified structure (roblox.com/library/317674349)
 		modelSearch = "underground bunker hatch roblox luxury",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -317,6 +344,7 @@ LuxuryConfig.Items = {
 		price       = 5000000,
 		category    = "Property",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://5539575",     -- Roblox Castle / large estate (roblox.com/library/5539575)
 		modelSearch = "mansion white columns roblox pool",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -327,6 +355,7 @@ LuxuryConfig.Items = {
 		price       = 6000000,
 		category    = "Property",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://46367625",    -- Castles go bye bye / alpine structure (roblox.com/library/46367625)
 		modelSearch = "ski chalet alpine cabin roblox snow",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -337,6 +366,7 @@ LuxuryConfig.Items = {
 		price       = 8000000,
 		category    = "Property",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://2215219927",  -- Castle 2 (roblox.com/library/2215219927)
 		modelSearch = "medieval castle roblox stone large",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -347,6 +377,7 @@ LuxuryConfig.Items = {
 		price       = 10000000,
 		category    = "Property",
 		rarity      = "Legendary",
+		imageId     = "rbxassetid://63267323",    -- URSC decal / ocean/earth from above (roblox.com/library/63267323)
 		modelSearch = "private island tropical roblox dock",
 		spawnOffset = Vector3.new(120, 0, 0),  -- offset to side of plot
 	},
@@ -357,6 +388,7 @@ LuxuryConfig.Items = {
 		price       = 100000000,
 		category    = "Property",
 		rarity      = "Legendary",
+		imageId     = "rbxassetid://20379895",    -- Space Decal 2 / space station scene (roblox.com/library/20379895)
 		modelSearch = "space station ISS roblox orbiting",
 		spawnOffset = Vector3.new(0, 150, 0),  -- floats high above plot
 	},
@@ -372,6 +404,7 @@ LuxuryConfig.Items = {
 		price       = 500000,
 		category    = "Exotic",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://26060300",    -- The Golden Robloxian Statue / golden trophy (roblox.com/library/26060300)
 		modelSearch = "gold throne chair roblox large",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -382,6 +415,7 @@ LuxuryConfig.Items = {
 		price       = 1000000,
 		category    = "Exotic",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://415565819",   -- Aesthetic Statue / crystal decor (roblox.com/library/415565819)
 		modelSearch = "diamond desk crystal roblox office",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -392,6 +426,7 @@ LuxuryConfig.Items = {
 		price       = 1500000,
 		category    = "Exotic",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://174792017",   -- Statue / humanoid figure (roblox.com/library/174792017)
 		modelSearch = "robot butler humanoid roblox NPC",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -402,6 +437,7 @@ LuxuryConfig.Items = {
 		price       = 2000000,
 		category    = "Exotic",
 		rarity      = "Rare",
+		imageId     = "rbxassetid://147184499",   -- Cartoon Tiger :D (roblox.com/library/147184499)
 		modelSearch = "pet tiger NPC roblox animated",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -412,6 +448,7 @@ LuxuryConfig.Items = {
 		price       = 3000000,
 		category    = "Exotic",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://92272104",    -- Tribal Lion Decal (roblox.com/library/92272104)
 		modelSearch = "pet lion NPC roblox animated",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -422,6 +459,7 @@ LuxuryConfig.Items = {
 		price       = 7500000,
 		category    = "Exotic",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://43118538",    -- Roblox Golden Statue / gold vault trophy (roblox.com/library/43118538)
 		modelSearch = "vault room gold bars cash roblox",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -432,6 +470,7 @@ LuxuryConfig.Items = {
 		price       = 5000000,
 		category    = "Exotic",
 		rarity      = "Epic",
+		imageId     = "rbxassetid://3188232058",  -- Manokit tiger-shark (roblox.com/library/3188232058)
 		modelSearch = "shark tank aquarium roblox large",
 		spawnOffset = Vector3.new(0, 0, 0),
 	},
@@ -442,6 +481,7 @@ LuxuryConfig.Items = {
 		price       = 10000000,
 		category    = "Exotic",
 		rarity      = "Legendary",
+		imageId     = "rbxassetid://392990034",   -- Personal Statue / large figurine (roblox.com/library/392990034)
 		modelSearch = "gold statue CEO roblox large",
 		spawnOffset = Vector3.new(0, 0, -90),  -- near plot entrance
 	},
