@@ -97,15 +97,15 @@ local function updateLightingForTime(clockTime)
 		Lighting.Brightness    = 1.8
 		Lighting.OutdoorAmbient = Color3.fromRGB(200, 130, 80)
 	elseif clockTime >= 20 or clockTime < 5 then
-		-- Night: dark blue
-		Lighting.Ambient       = Color3.fromRGB(30, 35, 60)
-		Lighting.Brightness    = 0.5
-		Lighting.OutdoorAmbient = Color3.fromRGB(40, 50, 80)
+		-- Night: lit by street lights, not pitch black
+		Lighting.Ambient        = Color3.fromRGB(80, 85, 130)
+		Lighting.Brightness     = 1.2
+		Lighting.OutdoorAmbient = Color3.fromRGB(90, 100, 150)
 	else
 		-- Pre-dawn
-		Lighting.Ambient       = Color3.fromRGB(50, 50, 70)
-		Lighting.Brightness    = 0.8
-		Lighting.OutdoorAmbient = Color3.fromRGB(60, 70, 90)
+		Lighting.Ambient        = Color3.fromRGB(90, 90, 120)
+		Lighting.Brightness     = 1.2
+		Lighting.OutdoorAmbient = Color3.fromRGB(100, 110, 140)
 	end
 end
 
@@ -135,11 +135,11 @@ local function buildTerrain()
 	local TERRAIN_SIZE  = 1200
 	local TERRAIN_DEPTH = 4
 
-	-- Fill the base with grass
+	-- Fill the base with LeafyGrass (short compact ground cover, no tall blades)
 	terrain:FillBlock(
 		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
 		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
-		Enum.Material.Grass
+		Enum.Material.LeafyGrass
 	)
 
 	-- Add a water area on one side for the watercraft luxury items
@@ -169,10 +169,6 @@ local function buildTerrain()
 			Enum.Material.Pavement
 		)
 	end
-
-	-- Set short grass AFTER all terrain operations so it isn't reset
-	terrain.GrassLength        = 0.1
-	terrain.Decoration         = true
 
 	print("[WorldBuilder] Terrain built.")
 end
@@ -330,6 +326,10 @@ end
 --  pads at plot corners for extra night coverage.
 -- ─────────────────────────────────────────────
 local function addStreetLights()
+	-- Remove any existing lights from a previous run
+	local old = workspace:FindFirstChild("StreetLights")
+	if old then old:Destroy() end
+
 	local lightFolder = Instance.new("Folder")
 	lightFolder.Name   = "StreetLights"
 	lightFolder.Parent = workspace
