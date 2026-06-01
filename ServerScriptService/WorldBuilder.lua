@@ -132,11 +132,8 @@ local function buildTerrain()
 	-- Clear existing terrain
 	terrain:Clear()
 
-	local TERRAIN_SIZE  = 1200  -- total world size in studs
-	local TERRAIN_DEPTH = 4     -- very shallow so grass appears short/flat
-
-	-- Short grass blades
-	terrain.GrassLength = 0.2
+	local TERRAIN_SIZE  = 1200
+	local TERRAIN_DEPTH = 4
 
 	-- Fill the base with grass
 	terrain:FillBlock(
@@ -172,6 +169,10 @@ local function buildTerrain()
 			Enum.Material.Pavement
 		)
 	end
+
+	-- Set short grass AFTER all terrain operations so it isn't reset
+	terrain.GrassLength        = 0.1
+	terrain.Decoration         = true
 
 	print("[WorldBuilder] Terrain built.")
 end
@@ -325,7 +326,8 @@ end
 
 -- ─────────────────────────────────────────────
 --  ADD STREET LIGHTS
---  Places street lights along the roads between plots.
+--  Bright street lights along every road + glow
+--  pads at plot corners for extra night coverage.
 -- ─────────────────────────────────────────────
 local function addStreetLights()
 	local lightFolder = Instance.new("Folder")
@@ -334,49 +336,93 @@ local function addStreetLights()
 
 	local function makeStreetLight(x, z)
 		local post = Instance.new("Part")
-		post.Name      = "Post"
-		post.Size      = Vector3.new(1, 14, 1)
-		post.Position  = Vector3.new(x, 7, z)
-		post.Anchored  = true
-		post.BrickColor = BrickColor.new("Dark stone grey")
-		post.Material  = Enum.Material.Metal
-		post.TopSurface = Enum.SurfaceType.Smooth
-		post.Parent    = lightFolder
+		post.Name        = "Post"
+		post.Size        = Vector3.new(1, 16, 1)
+		post.Position    = Vector3.new(x, 8, z)
+		post.Anchored    = true
+		post.BrickColor  = BrickColor.new("Dark stone grey")
+		post.Material    = Enum.Material.Metal
+		post.TopSurface  = Enum.SurfaceType.Smooth
+		post.CastShadow  = false
+		post.Parent      = lightFolder
 
-		local head = Instance.new("Part")
-		head.Name      = "Head"
-		head.Size      = Vector3.new(3, 1, 1)
-		head.Position  = Vector3.new(x + 1, 14, z)
-		head.Anchored  = true
-		head.BrickColor = BrickColor.new("Dark stone grey")
-		head.Material  = Enum.Material.Metal
-		head.Parent    = lightFolder
+		local arm = Instance.new("Part")
+		arm.Name       = "Arm"
+		arm.Size       = Vector3.new(4, 0.8, 0.8)
+		arm.Position   = Vector3.new(x + 2, 16, z)
+		arm.Anchored   = true
+		arm.BrickColor = BrickColor.new("Dark stone grey")
+		arm.Material   = Enum.Material.Metal
+		arm.CastShadow = false
+		arm.Parent     = lightFolder
 
 		local bulb = Instance.new("Part")
 		bulb.Name      = "Bulb"
-		bulb.Size      = Vector3.new(1.5, 1, 1.5)
-		bulb.Position  = Vector3.new(x + 1.5, 13.5, z)
+		bulb.Size      = Vector3.new(2, 0.8, 2)
+		bulb.Position  = Vector3.new(x + 3.5, 15.4, z)
 		bulb.Anchored  = true
 		bulb.BrickColor = BrickColor.new("Bright yellow")
 		bulb.Material  = Enum.Material.Neon
+		bulb.CastShadow = false
 		bulb.Parent    = lightFolder
 
-		-- Point light
 		local pointLight = Instance.new("PointLight")
-		pointLight.Brightness = 3
-		pointLight.Color      = Color3.fromRGB(255, 240, 200)
-		pointLight.Range      = 40
+		pointLight.Brightness = 8
+		pointLight.Color      = Color3.fromRGB(255, 240, 190)
+		pointLight.Range      = 60
 		pointLight.Parent     = bulb
+
+		-- Small glow pad on the ground directly below
+		local pad = Instance.new("Part")
+		pad.Name        = "GlowPad"
+		pad.Size        = Vector3.new(6, 0.2, 6)
+		pad.Position    = Vector3.new(x + 3.5, 0.1, z)
+		pad.Anchored    = true
+		pad.BrickColor  = BrickColor.new("Bright yellow")
+		pad.Material    = Enum.Material.Neon
+		pad.Transparency = 0.85
+		pad.CastShadow  = false
+		pad.Parent      = lightFolder
 	end
 
-	-- Place lights along the roads
+	-- Large ambient fill lights hidden in the sky above the map
+	-- These give soft blue-white fill so night is never pitch black
+	local function makeAmbientLight(x, z)
+		local anchor = Instance.new("Part")
+		anchor.Size        = Vector3.new(1, 1, 1)
+		anchor.Position    = Vector3.new(x, 80, z)
+		anchor.Anchored    = true
+		anchor.Transparency = 1
+		anchor.CanCollide  = false
+		anchor.CastShadow  = false
+		anchor.Parent      = lightFolder
+
+		local pl = Instance.new("PointLight")
+		pl.Brightness = 2
+		pl.Color      = Color3.fromRGB(140, 160, 220)
+		pl.Range      = 300
+		pl.Parent     = anchor
+	end
+
 	local spacing = GameConfig.Plots.plotSpacing
+
+	-- Street lights on every road intersection
 	for col = -2, 2 do
 		local x = col * spacing
-		for row = -1, 1 do
-			local z = row * spacing + spacing / 2
+		for row = -2, 2 do
+			local z = row * spacing
 			makeStreetLight(x - spacing / 2, z)
+			makeStreetLight(x - spacing / 2, z + spacing / 2)
 		end
+	end
+
+	-- Ambient fill lights spread across the map
+	for _, pos in ipairs({
+		{-400, -400}, {0, -400}, {400, -400},
+		{-400,    0}, {0,    0}, {400,    0},
+		{-400,  400}, {0,  400}, {400,  400},
+	}) do
+		makeAmbientLight(pos[1], pos[2])
 	end
 
 	print("[WorldBuilder] Street lights placed.")
