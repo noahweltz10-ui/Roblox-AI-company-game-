@@ -1,19 +1,11 @@
 --[[
 	WorldBuilder.lua
 	ServerScriptService > WorldBuilder (Script)
-
-	Handles all world visuals for AI Empire Tycoon:
-	  - Replaces the flat baseplate with grass terrain
-	  - Adds a running day/night cycle
-	  - Sets up atmosphere, lighting, and sky
-	  - Adds roads between plots
-	  - Adds trees and decorations around the map
-	  - Upgrades plot floors (marble office area, stone surroundings)
 ]]
 
-local Lighting   = game:GetService("Lighting")
+local Lighting     = game:GetService("Lighting")
 local TweenService = game:GetService("TweenService")
-local RunService = game:GetService("RunService")
+local RunService   = game:GetService("RunService")
 
 local GameConfig = require(game.ReplicatedStorage:WaitForChild("GameConfig", 30))
 
@@ -21,14 +13,12 @@ local GameConfig = require(game.ReplicatedStorage:WaitForChild("GameConfig", 30)
 --  LIGHTING SETUP
 -- ─────────────────────────────────────────────
 local function setupLighting()
-	-- Base lighting
 	Lighting.Ambient          = Color3.fromRGB(80, 80, 90)
 	Lighting.Brightness       = 2
 	Lighting.GlobalShadows    = true
 	Lighting.ShadowSoftness   = 0.2
-	Lighting.ClockTime        = 8  -- start at 8am
+	Lighting.ClockTime        = 8
 
-	-- Atmosphere for realism
 	local atmosphere = Instance.new("Atmosphere")
 	atmosphere.Density    = 0.3
 	atmosphere.Offset     = 0.1
@@ -38,7 +28,6 @@ local function setupLighting()
 	atmosphere.Haze       = 1.5
 	atmosphere.Parent     = Lighting
 
-	-- Sky
 	local sky = Instance.new("Sky")
 	sky.SkyboxBk = "rbxassetid://159454299"
 	sky.SkyboxDn = "rbxassetid://159454296"
@@ -49,14 +38,12 @@ local function setupLighting()
 	sky.StarCount = 3000
 	sky.Parent    = Lighting
 
-	-- Bloom effect
 	local bloom = Instance.new("BloomEffect")
 	bloom.Intensity  = 0.4
 	bloom.Size       = 24
 	bloom.Threshold  = 0.95
 	bloom.Parent     = Lighting
 
-	-- Color correction for a warm, vibrant look
 	local colorCorrection = Instance.new("ColorCorrectionEffect")
 	colorCorrection.Brightness = 0.02
 	colorCorrection.Contrast   = 0.08
@@ -64,7 +51,6 @@ local function setupLighting()
 	colorCorrection.TintColor  = Color3.fromRGB(255, 248, 240)
 	colorCorrection.Parent     = Lighting
 
-	-- Sun rays
 	local sunRays = Instance.new("SunRaysEffect")
 	sunRays.Intensity = 0.15
 	sunRays.Spread    = 0.5
@@ -75,37 +61,27 @@ end
 
 -- ─────────────────────────────────────────────
 --  DAY CYCLE
---  Smoothly cycles through a full day in 10 real minutes.
 -- ─────────────────────────────────────────────
-local DAY_LENGTH_SECONDS = 600  -- 10 minutes per full day cycle
+local DAY_LENGTH_SECONDS = 600
 
 local function updateLightingForTime(clockTime)
-	-- Adjust ambient and brightness based on time of day
 	if clockTime >= 6 and clockTime < 8 then
-		-- Dawn: soft orange/pink
-		Lighting.Ambient       = Color3.fromRGB(100, 85, 80)
-		Lighting.Brightness    = 1.5
+		Lighting.Ambient        = Color3.fromRGB(100, 85, 80)
+		Lighting.Brightness     = 1.5
 		Lighting.OutdoorAmbient = Color3.fromRGB(180, 140, 100)
 	elseif clockTime >= 8 and clockTime < 17 then
-		-- Daytime: bright and clear
-		Lighting.Ambient       = Color3.fromRGB(80, 80, 90)
-		Lighting.Brightness    = 2.5
+		Lighting.Ambient        = Color3.fromRGB(80, 80, 90)
+		Lighting.Brightness     = 2.5
 		Lighting.OutdoorAmbient = Color3.fromRGB(160, 170, 190)
 	elseif clockTime >= 17 and clockTime < 20 then
-		-- Golden hour / sunset
-		Lighting.Ambient       = Color3.fromRGB(110, 80, 60)
-		Lighting.Brightness    = 1.8
+		Lighting.Ambient        = Color3.fromRGB(110, 80, 60)
+		Lighting.Brightness     = 1.8
 		Lighting.OutdoorAmbient = Color3.fromRGB(200, 130, 80)
-	elseif clockTime >= 20 or clockTime < 5 then
-		-- Night: lit by street lights, not pitch black
-		Lighting.Ambient        = Color3.fromRGB(80, 85, 130)
-		Lighting.Brightness     = 1.2
-		Lighting.OutdoorAmbient = Color3.fromRGB(90, 100, 150)
 	else
-		-- Pre-dawn
-		Lighting.Ambient        = Color3.fromRGB(90, 90, 120)
-		Lighting.Brightness     = 1.2
-		Lighting.OutdoorAmbient = Color3.fromRGB(100, 110, 140)
+		-- Night: kept bright so street lights are visible
+		Lighting.Ambient        = Color3.fromRGB(90, 95, 140)
+		Lighting.Brightness     = 1.5
+		Lighting.OutdoorAmbient = Color3.fromRGB(100, 110, 160)
 	end
 end
 
@@ -113,7 +89,6 @@ local function startDayCycle()
 	task.spawn(function()
 		while true do
 			task.wait(0.5)
-			-- Advance time
 			local hoursPerSecond = 24 / DAY_LENGTH_SECONDS
 			Lighting.ClockTime = (Lighting.ClockTime + hoursPerSecond * 0.5) % 24
 			updateLightingForTime(Lighting.ClockTime)
@@ -124,43 +99,36 @@ end
 
 -- ─────────────────────────────────────────────
 --  TERRAIN
---  Replace the flat baseplate with grass terrain.
 -- ─────────────────────────────────────────────
 local function buildTerrain()
 	local terrain = workspace.Terrain
-
-	-- Clear existing terrain
 	terrain:Clear()
 
 	local TERRAIN_SIZE  = 1200
 	local TERRAIN_DEPTH = 4
 
-	-- Fill the base with LeafyGrass (short compact ground cover, no tall blades)
+	-- LeafyGrass = short compact ground, no tall blades
 	terrain:FillBlock(
 		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
 		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
 		Enum.Material.LeafyGrass
 	)
 
-	-- Add a water area on one side for the watercraft luxury items
 	terrain:FillBlock(
 		CFrame.new(600, -2, 0),
 		Vector3.new(200, 4, 600),
 		Enum.Material.Water
 	)
 
-	-- Add some dirt paths between plot rows
 	local plotsPerRow = 5
 	local spacing     = GameConfig.Plots.plotSpacing
 
-	-- Horizontal road between rows
 	terrain:FillBlock(
 		CFrame.new(0, 0.1, spacing / 2),
 		Vector3.new(TERRAIN_SIZE, 1, 20),
 		Enum.Material.Pavement
 	)
 
-	-- Vertical roads between columns
 	for col = 0, plotsPerRow do
 		local x = (col * spacing) - ((plotsPerRow - 1) * spacing / 2) - spacing / 2
 		terrain:FillBlock(
@@ -186,17 +154,14 @@ end
 
 -- ─────────────────────────────────────────────
 --  UPGRADE PLOT FLOORS
---  Makes each plot look nicer with marble/stone flooring.
 -- ─────────────────────────────────────────────
 local function upgradePlotFloors()
-	-- Wait for PlotManager to generate plots
 	local plotsFolder = workspace:WaitForChild("Plots", 30)
 	if not plotsFolder then
 		warn("[WorldBuilder] Plots folder not found.")
 		return
 	end
 
-	-- Wait a moment for all plots to be generated
 	task.wait(3)
 
 	for i = 1, GameConfig.Plots.totalPlots do
@@ -206,12 +171,10 @@ local function upgradePlotFloors()
 		local baseplate = plotModel:FindFirstChild("Baseplate")
 		if not baseplate then continue end
 
-		-- Upgrade baseplate to smooth marble
-		baseplate.Material  = Enum.Material.Marble
+		baseplate.Material   = Enum.Material.Marble
 		baseplate.BrickColor = BrickColor.new("White")
 		baseplate.TopSurface = Enum.SurfaceType.Smooth
 
-		-- Add a grass border around the plot
 		local plotSize = baseplate.Size
 		local plotPos  = baseplate.Position
 
@@ -228,8 +191,7 @@ local function upgradePlotFloors()
 			border.Parent     = plotModel
 		end
 
-		-- Decorative border strips (grass edging)
-		local bw = 4  -- border width
+		local bw = 4
 		local bh = 0.5
 		makeBorder("BorderNorth",
 			Vector3.new(plotSize.X + bw*2, bh, bw),
@@ -248,11 +210,10 @@ local function upgradePlotFloors()
 			Vector3.new(-(plotSize.X/2 + bw/2), bh/2, 0),
 			BrickColor.new("Bright green"), Enum.Material.Grass)
 
-		-- Upgrade walls to glass/metal look
 		for _, child in ipairs(plotModel:GetChildren()) do
 			if child.Name:find("Wall") and child:IsA("BasePart") then
-				child.Material  = Enum.Material.Glass
-				child.BrickColor = BrickColor.new("Institutional white")
+				child.Material     = Enum.Material.Glass
+				child.BrickColor   = BrickColor.new("Institutional white")
 				child.Transparency = 0.5
 			end
 		end
@@ -263,9 +224,11 @@ end
 
 -- ─────────────────────────────────────────────
 --  ADD TREES
---  Places trees around the map for decoration.
 -- ─────────────────────────────────────────────
 local function addTrees()
+	local old = workspace:FindFirstChild("Trees")
+	if old then old:Destroy() end
+
 	local treeFolder = Instance.new("Folder")
 	treeFolder.Name   = "Trees"
 	treeFolder.Parent = workspace
@@ -274,40 +237,35 @@ local function addTrees()
 		scale = scale or 1
 
 		local trunk = Instance.new("Part")
-		trunk.Name      = "Trunk"
-		trunk.Size      = Vector3.new(2*scale, 8*scale, 2*scale)
-		trunk.Position  = Vector3.new(x, 4*scale, z)
-		trunk.Anchored  = true
-		trunk.BrickColor = BrickColor.new("Reddish brown")
-		trunk.Material  = Enum.Material.Wood
-		trunk.TopSurface = Enum.SurfaceType.Smooth
-		trunk.BottomSurface = Enum.SurfaceType.Smooth
-		trunk.Parent    = treeFolder
+		trunk.Name           = "Trunk"
+		trunk.Size           = Vector3.new(2*scale, 8*scale, 2*scale)
+		trunk.Position       = Vector3.new(x, 4*scale, z)
+		trunk.Anchored       = true
+		trunk.BrickColor     = BrickColor.new("Reddish brown")
+		trunk.Material       = Enum.Material.Wood
+		trunk.TopSurface     = Enum.SurfaceType.Smooth
+		trunk.BottomSurface  = Enum.SurfaceType.Smooth
+		trunk.Parent         = treeFolder
 
 		local leaves = Instance.new("Part")
-		leaves.Name     = "Leaves"
-		leaves.Shape    = Enum.PartType.Ball
-		leaves.Size     = Vector3.new(10*scale, 10*scale, 10*scale)
-		leaves.Position = Vector3.new(x, 12*scale, z)
-		leaves.Anchored = true
-		leaves.BrickColor = BrickColor.new("Bright green")
-		leaves.Material = Enum.Material.Grass
-		leaves.TopSurface = Enum.SurfaceType.Smooth
+		leaves.Shape         = Enum.PartType.Ball
+		leaves.Size          = Vector3.new(10*scale, 10*scale, 10*scale)
+		leaves.Position      = Vector3.new(x, 12*scale, z)
+		leaves.Anchored      = true
+		leaves.BrickColor    = BrickColor.new("Bright green")
+		leaves.Material      = Enum.Material.Grass
+		leaves.TopSurface    = Enum.SurfaceType.Smooth
 		leaves.BottomSurface = Enum.SurfaceType.Smooth
-		leaves.Parent   = treeFolder
+		leaves.Parent        = treeFolder
 	end
 
-	-- Place trees around the edges of the map and between plots
 	local positions = {
-		-- Far edges
 		{-500, -400}, {-500, -200}, {-500, 0}, {-500, 200}, {-500, 400},
 		{500,  -400}, {500,  -200}, {500,  0}, {500,  200}, {500,  400},
 		{-300, -500}, {-100, -500}, {100,  -500}, {300, -500},
 		{-300,  500}, {-100,  500}, {100,   500}, {300,  500},
-		-- Between plots (corners)
 		{-220, -260}, {0, -260}, {220, -260}, {440, -260},
 		{-220,  260}, {0,  260}, {220,  260}, {440,  260},
-		-- Scattered
 		{-380, 150}, {380, -150}, {-380, -150}, {380, 150},
 		{-450, 50},  {450, -50},  {-450, -50},  {450, 50},
 	}
@@ -322,11 +280,8 @@ end
 
 -- ─────────────────────────────────────────────
 --  ADD STREET LIGHTS
---  Bright street lights along every road + glow
---  pads at plot corners for extra night coverage.
 -- ─────────────────────────────────────────────
 local function addStreetLights()
-	-- Remove any existing lights from a previous run
 	local old = workspace:FindFirstChild("StreetLights")
 	if old then old:Destroy() end
 
@@ -336,77 +291,52 @@ local function addStreetLights()
 
 	local function makeStreetLight(x, z)
 		local post = Instance.new("Part")
-		post.Name        = "Post"
-		post.Size        = Vector3.new(1, 16, 1)
-		post.Position    = Vector3.new(x, 8, z)
-		post.Anchored    = true
-		post.BrickColor  = BrickColor.new("Dark stone grey")
-		post.Material    = Enum.Material.Metal
-		post.TopSurface  = Enum.SurfaceType.Smooth
-		post.CastShadow  = false
-		post.Parent      = lightFolder
-
-		local arm = Instance.new("Part")
-		arm.Name       = "Arm"
-		arm.Size       = Vector3.new(4, 0.8, 0.8)
-		arm.Position   = Vector3.new(x + 2, 16, z)
-		arm.Anchored   = true
-		arm.BrickColor = BrickColor.new("Dark stone grey")
-		arm.Material   = Enum.Material.Metal
-		arm.CastShadow = false
-		arm.Parent     = lightFolder
+		post.Name       = "Post"
+		post.Size       = Vector3.new(1, 16, 1)
+		post.Position   = Vector3.new(x, 8, z)
+		post.Anchored   = true
+		post.BrickColor = BrickColor.new("Dark stone grey")
+		post.Material   = Enum.Material.Metal
+		post.CastShadow = false
+		post.Parent     = lightFolder
 
 		local bulb = Instance.new("Part")
-		bulb.Name      = "Bulb"
-		bulb.Size      = Vector3.new(2, 0.8, 2)
-		bulb.Position  = Vector3.new(x + 3.5, 15.4, z)
-		bulb.Anchored  = true
+		bulb.Name       = "Bulb"
+		bulb.Size       = Vector3.new(2, 1, 2)
+		bulb.Position   = Vector3.new(x, 16, z)
+		bulb.Anchored   = true
 		bulb.BrickColor = BrickColor.new("Bright yellow")
-		bulb.Material  = Enum.Material.Neon
+		bulb.Material   = Enum.Material.Neon
 		bulb.CastShadow = false
-		bulb.Parent    = lightFolder
+		bulb.Parent     = lightFolder
 
 		local pointLight = Instance.new("PointLight")
-		pointLight.Brightness = 8
-		pointLight.Color      = Color3.fromRGB(255, 240, 190)
-		pointLight.Range      = 60
+		pointLight.Brightness = 10
+		pointLight.Color      = Color3.fromRGB(255, 235, 180)
+		pointLight.Range      = 80
 		pointLight.Parent     = bulb
-
-		-- Small glow pad on the ground directly below
-		local pad = Instance.new("Part")
-		pad.Name        = "GlowPad"
-		pad.Size        = Vector3.new(6, 0.2, 6)
-		pad.Position    = Vector3.new(x + 3.5, 0.1, z)
-		pad.Anchored    = true
-		pad.BrickColor  = BrickColor.new("Bright yellow")
-		pad.Material    = Enum.Material.Neon
-		pad.Transparency = 0.85
-		pad.CastShadow  = false
-		pad.Parent      = lightFolder
 	end
 
-	-- Large ambient fill lights hidden in the sky above the map
-	-- These give soft blue-white fill so night is never pitch black
-	local function makeAmbientLight(x, z)
+	-- Invisible fill lights high in the sky so the whole map is lit at night
+	local function makeFillLight(x, z)
 		local anchor = Instance.new("Part")
-		anchor.Size        = Vector3.new(1, 1, 1)
-		anchor.Position    = Vector3.new(x, 80, z)
-		anchor.Anchored    = true
+		anchor.Size         = Vector3.new(1, 1, 1)
+		anchor.Position     = Vector3.new(x, 120, z)
+		anchor.Anchored     = true
 		anchor.Transparency = 1
-		anchor.CanCollide  = false
-		anchor.CastShadow  = false
-		anchor.Parent      = lightFolder
+		anchor.CanCollide   = false
+		anchor.CastShadow   = false
+		anchor.Parent       = lightFolder
 
 		local pl = Instance.new("PointLight")
-		pl.Brightness = 2
-		pl.Color      = Color3.fromRGB(140, 160, 220)
-		pl.Range      = 300
+		pl.Brightness = 3
+		pl.Color      = Color3.fromRGB(160, 175, 230)
+		pl.Range      = 400
 		pl.Parent     = anchor
 	end
 
 	local spacing = GameConfig.Plots.plotSpacing
 
-	-- Street lights on every road intersection
 	for col = -2, 2 do
 		local x = col * spacing
 		for row = -2, 2 do
@@ -416,13 +346,13 @@ local function addStreetLights()
 		end
 	end
 
-	-- Ambient fill lights spread across the map
+	-- 9 fill lights covering the whole map
 	for _, pos in ipairs({
 		{-400, -400}, {0, -400}, {400, -400},
 		{-400,    0}, {0,    0}, {400,    0},
 		{-400,  400}, {0,  400}, {400,  400},
 	}) do
-		makeAmbientLight(pos[1], pos[2])
+		makeFillLight(pos[1], pos[2])
 	end
 
 	print("[WorldBuilder] Street lights placed.")
