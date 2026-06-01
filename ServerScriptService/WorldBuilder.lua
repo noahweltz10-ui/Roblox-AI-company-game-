@@ -115,11 +115,11 @@ local function buildTerrain()
 	local TERRAIN_SIZE  = 1200
 	local TERRAIN_DEPTH = 4
 
-	-- LeafyGrass: short compact ground cover
+	-- Ground: flat compact surface, no tall grass blades
 	terrain:FillBlock(
 		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
 		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
-		Enum.Material.LeafyGrass
+		Enum.Material.Ground
 	)
 
 	terrain:FillBlock(

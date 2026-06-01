@@ -20,6 +20,10 @@ local TweenService = game:GetService("TweenService")
 local player    = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
+-- Remove any existing copy of this GUI so duplicates don't cause flashing
+local existing = playerGui:FindFirstChild("TimeOfDayGui")
+if existing then existing:Destroy() end
+
 -- ─────────────────────────────────────────────
 --  TIME PRESETS
 -- ─────────────────────────────────────────────
