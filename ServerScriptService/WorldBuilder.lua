@@ -25,7 +25,6 @@ local function setupLighting()
 	Lighting.Brightness       = 2
 	Lighting.GlobalShadows    = true
 	Lighting.ShadowSoftness   = 0.2
-	Lighting.ClockTime        = 8
 
 	local atmosphere = Instance.new("Atmosphere")
 	atmosphere.Density    = 0.3
@@ -115,11 +114,11 @@ local function buildTerrain()
 	local TERRAIN_SIZE  = 1200
 	local TERRAIN_DEPTH = 4
 
-	-- Ground: flat compact surface, no tall grass blades
+	-- Rock: solid grey, unmistakable if script is running
 	terrain:FillBlock(
 		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
 		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
-		Enum.Material.Ground
+		Enum.Material.Rock
 	)
 
 	terrain:FillBlock(
