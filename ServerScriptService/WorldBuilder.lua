@@ -135,7 +135,10 @@ local function buildTerrain()
 	local TERRAIN_SIZE  = 1200  -- total world size in studs
 	local TERRAIN_DEPTH = 4     -- very shallow so grass appears short/flat
 
-	-- Fill the base with grass (shallow depth = short looking grass)
+	-- Short grass blades
+	terrain.GrassLength = 0.2
+
+	-- Fill the base with grass
 	terrain:FillBlock(
 		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
 		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
