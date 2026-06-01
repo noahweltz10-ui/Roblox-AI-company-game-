@@ -66,9 +66,9 @@ local function updateLightingForTime(clockTime)
 		Lighting.Brightness     = 1.8
 		Lighting.OutdoorAmbient = Color3.fromRGB(200, 130, 80)
 	else
-		Lighting.Ambient        = Color3.fromRGB(30,  35,  60)
-		Lighting.Brightness     = 0.5
-		Lighting.OutdoorAmbient = Color3.fromRGB(40,  50,  80)
+		Lighting.Ambient        = Color3.fromRGB(120, 125, 175)
+		Lighting.Brightness     = 2.0
+		Lighting.OutdoorAmbient = Color3.fromRGB(130, 140, 200)
 	end
 end
 

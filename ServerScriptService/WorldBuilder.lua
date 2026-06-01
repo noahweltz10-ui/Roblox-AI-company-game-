@@ -86,10 +86,10 @@ local function updateLightingForTime(clockTime)
 		Lighting.Brightness     = 1.8
 		Lighting.OutdoorAmbient = Color3.fromRGB(200, 130, 80)
 	else
-		-- Night: kept bright so street lights are visible
-		Lighting.Ambient        = Color3.fromRGB(90, 95, 140)
-		Lighting.Brightness     = 1.5
-		Lighting.OutdoorAmbient = Color3.fromRGB(100, 110, 160)
+		-- Night: bright enough to see clearly, street lights add warmth
+		Lighting.Ambient        = Color3.fromRGB(120, 125, 175)
+		Lighting.Brightness     = 2.0
+		Lighting.OutdoorAmbient = Color3.fromRGB(130, 140, 200)
 	end
 end
 
@@ -115,11 +115,11 @@ local function buildTerrain()
 	local TERRAIN_SIZE  = 1200
 	local TERRAIN_DEPTH = 4
 
-	-- Ground material: flat brown dirt, no grass blades at all
+	-- LeafyGrass: short compact ground cover
 	terrain:FillBlock(
 		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
 		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
-		Enum.Material.Ground
+		Enum.Material.LeafyGrass
 	)
 
 	terrain:FillBlock(
