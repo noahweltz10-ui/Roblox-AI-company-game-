@@ -363,11 +363,33 @@ local function makeListCard(parent, config, isEmployee)
 	accentBar.Parent            = card
 	corner(accentBar, 3)
 
+	-- Item image (left side)
+	local IMG_W = 90
+	local imgFrame = Instance.new("Frame")
+	imgFrame.Size              = UDim2.new(0, IMG_W, 0, IMG_W)
+	imgFrame.Position          = UDim2.new(0, 12, 0.5, 0)
+	imgFrame.AnchorPoint       = Vector2.new(0, 0.5)
+	imgFrame.BackgroundColor3  = C.panelBg
+	imgFrame.BorderSizePixel   = 0
+	imgFrame.Parent            = card
+	corner(imgFrame, 8)
+	stroke(imgFrame, rarityData.color, 1)
+
+	local itemImg = Instance.new("ImageLabel")
+	itemImg.Size                  = UDim2.new(1, -8, 1, -8)
+	itemImg.Position              = UDim2.new(0, 4, 0, 4)
+	itemImg.BackgroundTransparency = 1
+	itemImg.Image                 = config.imageId or ""
+	itemImg.ScaleType             = Enum.ScaleType.Fit
+	itemImg.Parent                = imgFrame
+
+	local TEXT_X = IMG_W + 18  -- shift all text labels to the right of the image
+
 	-- Item name
 	local nameLabel = Instance.new("TextLabel")
 	nameLabel.BackgroundTransparency = 1
-	nameLabel.Size     = UDim2.new(1, -220, 0, 24)
-	nameLabel.Position = UDim2.new(0, 18, 0, 12)
+	nameLabel.Size     = UDim2.new(1, -(TEXT_X + 210), 0, 24)
+	nameLabel.Position = UDim2.new(0, TEXT_X, 0, 12)
 	nameLabel.Text     = config.name or "?"
 	nameLabel.TextColor3 = C.textWhite
 	nameLabel.Font     = Enum.Font.GothamBlack
@@ -379,7 +401,7 @@ local function makeListCard(parent, config, isEmployee)
 	-- Rarity badge
 	local rarityBadge = Instance.new("Frame")
 	rarityBadge.Size              = UDim2.new(0, 85, 0, 22)
-	rarityBadge.Position          = UDim2.new(0, 18, 0, 38)
+	rarityBadge.Position          = UDim2.new(0, TEXT_X, 0, 38)
 	rarityBadge.BackgroundColor3  = rarityData.bg
 	rarityBadge.BorderSizePixel   = 0
 	rarityBadge.Parent            = card
@@ -399,8 +421,8 @@ local function makeListCard(parent, config, isEmployee)
 	-- Description
 	local descLabel = Instance.new("TextLabel")
 	descLabel.BackgroundTransparency = 1
-	descLabel.Size     = UDim2.new(1, -220, 0, 30)
-	descLabel.Position = UDim2.new(0, 18, 0, 63)
+	descLabel.Size     = UDim2.new(1, -(TEXT_X + 210), 0, 30)
+	descLabel.Position = UDim2.new(0, TEXT_X, 0, 63)
 	descLabel.Text     = config.description or ""
 	descLabel.TextColor3 = C.textDim
 	descLabel.Font     = Enum.Font.Gotham
@@ -420,7 +442,7 @@ local function makeListCard(parent, config, isEmployee)
 	local bonusLabel = Instance.new("TextLabel")
 	bonusLabel.BackgroundTransparency = 1
 	bonusLabel.Size     = UDim2.new(0, 150, 0, 18)
-	bonusLabel.Position = UDim2.new(0, 115, 0, 40)
+	bonusLabel.Position = UDim2.new(0, TEXT_X + 97, 0, 40)
 	bonusLabel.Text     = bonusText
 	bonusLabel.TextColor3 = Color3.fromRGB(100, 215, 130)
 	bonusLabel.Font     = Enum.Font.GothamBold
@@ -588,43 +610,46 @@ local function makeGridCard(parent, itemConfig)
 	rarityLbl.TextScaled = false
 	rarityLbl.Parent   = rarityBadge
 
+	-- Item image
+	local gridImgFrame = Instance.new("Frame")
+	gridImgFrame.Size              = UDim2.new(1, -16, 0, 60)
+	gridImgFrame.Position          = UDim2.new(0, 8, 0, 40)
+	gridImgFrame.BackgroundColor3  = C.panelBg
+	gridImgFrame.BorderSizePixel   = 0
+	gridImgFrame.Parent            = card
+	corner(gridImgFrame, 6)
+
+	local gridImg = Instance.new("ImageLabel")
+	gridImg.Size                  = UDim2.new(1, -8, 1, -8)
+	gridImg.Position              = UDim2.new(0, 4, 0, 4)
+	gridImg.BackgroundTransparency = 1
+	gridImg.Image                 = itemConfig.imageId or ""
+	gridImg.ScaleType             = Enum.ScaleType.Fit
+	gridImg.Parent                = gridImgFrame
+
 	-- Item name
 	local nameLbl = Instance.new("TextLabel")
 	nameLbl.BackgroundTransparency = 1
-	nameLbl.Size     = UDim2.new(1, -16, 0, 36)
-	nameLbl.Position = UDim2.new(0, 8, 0, 40)
+	nameLbl.Size     = UDim2.new(1, -16, 0, 28)
+	nameLbl.Position = UDim2.new(0, 8, 0, 106)
 	nameLbl.Text     = itemConfig.name or "?"
 	nameLbl.TextColor3 = C.textWhite
 	nameLbl.Font     = Enum.Font.GothamBold
-	nameLbl.TextSize = 14
+	nameLbl.TextSize = 13
 	nameLbl.TextXAlignment = Enum.TextXAlignment.Left
 	nameLbl.TextWrapped = true
 	nameLbl.TextScaled = false
 	nameLbl.Parent   = card
 
-	-- Description
-	local descLbl = Instance.new("TextLabel")
-	descLbl.BackgroundTransparency = 1
-	descLbl.Size     = UDim2.new(1, -16, 0, 60)
-	descLbl.Position = UDim2.new(0, 8, 0, 80)
-	descLbl.Text     = itemConfig.description or ""
-	descLbl.TextColor3 = C.textDim
-	descLbl.Font     = Enum.Font.Gotham
-	descLbl.TextSize = 11
-	descLbl.TextXAlignment = Enum.TextXAlignment.Left
-	descLbl.TextWrapped = true
-	descLbl.TextScaled = false
-	descLbl.Parent   = card
-
 	-- Price
 	local priceLbl = Instance.new("TextLabel")
 	priceLbl.BackgroundTransparency = 1
 	priceLbl.Size     = UDim2.new(1, -16, 0, 22)
-	priceLbl.Position = UDim2.new(0, 8, 0, 146)
+	priceLbl.Position = UDim2.new(0, 8, 0, 138)
 	priceLbl.Text     = priceStr
 	priceLbl.TextColor3 = C.gold
 	priceLbl.Font     = Enum.Font.GothamBlack
-	priceLbl.TextSize = 16
+	priceLbl.TextSize = 15
 	priceLbl.TextXAlignment = Enum.TextXAlignment.Left
 	priceLbl.TextScaled = false
 	priceLbl.Parent   = card
@@ -632,7 +657,7 @@ local function makeGridCard(parent, itemConfig)
 	-- Buy button
 	local buyBtn = makeButton(card, "Buy", C.accent, C.textWhite, 13)
 	buyBtn.Size     = UDim2.new(1, -16, 0, 34)
-	buyBtn.Position = UDim2.new(0, 8, 0, 172)
+	buyBtn.Position = UDim2.new(0, 8, 0, 164)
 
 	local function updateCard()
 		local owned     = ShopController.OwnsLuxury(itemConfig.id)
