@@ -114,20 +114,20 @@ local function buildTerrain()
 	groundFolder.Name   = "Ground"
 	groundFolder.Parent = workspace
 
-	-- Flat green ground Part — Grass material on a Part gives a
-	-- smooth green surface with ZERO blade decoration
+	-- Flat green ground Part — SmoothPlastic gives a perfectly flat
+	-- uniform surface with zero texture and zero grass blades
 	local ground = Instance.new("Part")
-	ground.Name         = "GroundPlane"
-	ground.Size         = Vector3.new(2400, 2, 2400)
-	ground.Position     = Vector3.new(0, -1, 0)   -- top surface sits at y=0
-	ground.Anchored     = true
-	ground.BrickColor   = BrickColor.new("Bright green")
-	ground.Material     = Enum.Material.Grass
-	ground.TopSurface   = Enum.SurfaceType.Smooth
+	ground.Name          = "GroundPlane"
+	ground.Size          = Vector3.new(2400, 2, 2400)
+	ground.Position      = Vector3.new(0, -1, 0)
+	ground.Anchored      = true
+	ground.BrickColor    = BrickColor.new("Bright green")
+	ground.Material      = Enum.Material.SmoothPlastic
+	ground.TopSurface    = Enum.SurfaceType.Smooth
 	ground.BottomSurface = Enum.SurfaceType.Smooth
-	ground.CanCollide   = true
-	ground.CastShadow   = false
-	ground.Parent       = groundFolder
+	ground.CanCollide    = true
+	ground.CastShadow    = false
+	ground.Parent        = groundFolder
 
 	-- Water area for watercraft luxury items
 	terrain:FillBlock(

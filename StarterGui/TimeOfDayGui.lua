@@ -55,24 +55,48 @@ local INACTIVE_BTN = Color3.fromRGB(22, 34,  68)
 
 -- ─────────────────────────────────────────────
 --  LIGHTING UPDATER  (client-side only)
+--  Tweens smoothly between periods instead of
+--  jumping instantly — eliminates flashing.
 -- ─────────────────────────────────────────────
+local lastPeriod = nil
+
 local function updateLightingForTime(clockTime)
+	local period, target
+
 	if clockTime >= 6 and clockTime < 8 then
-		Lighting.Ambient        = Color3.fromRGB(100, 85,  80)
-		Lighting.Brightness     = 1.5
-		Lighting.OutdoorAmbient = Color3.fromRGB(180, 140, 100)
+		period = "dawn"
+		target = {
+			Ambient        = Color3.fromRGB(100, 85,  80),
+			Brightness     = 1.5,
+			OutdoorAmbient = Color3.fromRGB(180, 140, 100),
+		}
 	elseif clockTime >= 8 and clockTime < 17 then
-		Lighting.Ambient        = Color3.fromRGB(80,  80,  90)
-		Lighting.Brightness     = 2.5
-		Lighting.OutdoorAmbient = Color3.fromRGB(160, 170, 190)
+		period = "day"
+		target = {
+			Ambient        = Color3.fromRGB(80,  80,  90),
+			Brightness     = 2.5,
+			OutdoorAmbient = Color3.fromRGB(160, 170, 190),
+		}
 	elseif clockTime >= 17 and clockTime < 20 then
-		Lighting.Ambient        = Color3.fromRGB(110, 80,  60)
-		Lighting.Brightness     = 1.8
-		Lighting.OutdoorAmbient = Color3.fromRGB(200, 130, 80)
+		period = "sunset"
+		target = {
+			Ambient        = Color3.fromRGB(110, 80,  60),
+			Brightness     = 1.8,
+			OutdoorAmbient = Color3.fromRGB(200, 130, 80),
+		}
 	else
-		Lighting.Ambient        = Color3.fromRGB(120, 125, 175)
-		Lighting.Brightness     = 2.0
-		Lighting.OutdoorAmbient = Color3.fromRGB(130, 140, 200)
+		period = "night"
+		target = {
+			Ambient        = Color3.fromRGB(120, 125, 175),
+			Brightness     = 2.0,
+			OutdoorAmbient = Color3.fromRGB(130, 140, 200),
+		}
+	end
+
+	-- Only tween when the period actually changes, not every 0.5 seconds
+	if period ~= lastPeriod then
+		lastPeriod = period
+		TweenService:Create(Lighting, TweenInfo.new(3, Enum.EasingStyle.Linear), target):Play()
 	end
 end
 
