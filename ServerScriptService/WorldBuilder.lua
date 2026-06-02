@@ -6,6 +6,13 @@
 local Lighting   = game:GetService("Lighting")
 local RunService = game:GetService("RunService")
 
+-- Prevent a second/duplicate WorldBuilder script from running
+if _G.WorldBuilderRan then
+	warn("[WorldBuilder] Duplicate detected — exiting.")
+	return
+end
+_G.WorldBuilderRan = true
+
 local GameConfig = require(game.ReplicatedStorage:WaitForChild("GameConfig", 30))
 
 -- ─────────────────────────────────────────────

@@ -78,17 +78,23 @@ end
 
 -- ─────────────────────────────────────────────
 --  CLIENT DAY CYCLE LOOP
+--  Cancel any previous loop from an earlier run
+--  of this script (happens on respawn) so only
+--  one loop ever runs at a time.
 -- ─────────────────────────────────────────────
-task.spawn(function()
+if _G.TimeOfDayGuiLoop then
+	task.cancel(_G.TimeOfDayGuiLoop)
+	_G.TimeOfDayGuiLoop = nil
+end
+
+_G.TimeOfDayGuiLoop = task.spawn(function()
 	while true do
 		task.wait(0.5)
 		if lockedTime == nil then
-			-- Auto cycle
 			local hoursPerSecond = 24 / DAY_LENGTH
 			Lighting.ClockTime = (Lighting.ClockTime + hoursPerSecond * 0.5) % 24
 			updateLightingForTime(Lighting.ClockTime)
 		else
-			-- Locked to specific time
 			Lighting.ClockTime = lockedTime
 			updateLightingForTime(lockedTime)
 		end
