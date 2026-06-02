@@ -114,12 +114,13 @@ local function buildTerrain()
 	local TERRAIN_SIZE  = 1200
 	local TERRAIN_DEPTH = 4
 
-	-- Rock: solid grey, unmistakable if script is running
+	-- Grass terrain with decoration off = flat green ground, no tall blades
 	terrain:FillBlock(
 		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
 		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
-		Enum.Material.Rock
+		Enum.Material.Grass
 	)
+	workspace.Terrain.Decoration = false
 
 	terrain:FillBlock(
 		CFrame.new(600, -2, 0),
