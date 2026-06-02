@@ -3,9 +3,8 @@
 	ServerScriptService > WorldBuilder (Script)
 ]]
 
-local Lighting     = game:GetService("Lighting")
-local TweenService = game:GetService("TweenService")
-local RunService   = game:GetService("RunService")
+local Lighting   = game:GetService("Lighting")
+local RunService = game:GetService("RunService")
 
 local GameConfig = require(game.ReplicatedStorage:WaitForChild("GameConfig", 30))
 
@@ -13,7 +12,7 @@ local GameConfig = require(game.ReplicatedStorage:WaitForChild("GameConfig", 30)
 --  LIGHTING SETUP
 -- ─────────────────────────────────────────────
 local function setupLighting()
-	-- Remove any existing effects to prevent duplicates stacking up
+	-- Remove duplicate effects from previous Play sessions
 	for _, child in ipairs(Lighting:GetChildren()) do
 		if child:IsA("Atmosphere") or child:IsA("Sky") or child:IsA("BloomEffect")
 			or child:IsA("ColorCorrectionEffect") or child:IsA("SunRaysEffect") then
@@ -21,19 +20,19 @@ local function setupLighting()
 		end
 	end
 
-	Lighting.Ambient          = Color3.fromRGB(80, 80, 90)
-	Lighting.Brightness       = 2
-	Lighting.GlobalShadows    = true
-	Lighting.ShadowSoftness   = 0.2
+	Lighting.Ambient       = Color3.fromRGB(80, 80, 90)
+	Lighting.Brightness    = 2
+	Lighting.GlobalShadows = true
+	Lighting.ShadowSoftness = 0.2
 
 	local atmosphere = Instance.new("Atmosphere")
-	atmosphere.Density    = 0.3
-	atmosphere.Offset     = 0.1
-	atmosphere.Color      = Color3.fromRGB(199, 170, 140)
-	atmosphere.Decay      = Color3.fromRGB(90, 110, 130)
-	atmosphere.Glare      = 0.1
-	atmosphere.Haze       = 1.5
-	atmosphere.Parent     = Lighting
+	atmosphere.Density = 0.3
+	atmosphere.Offset  = 0.1
+	atmosphere.Color   = Color3.fromRGB(199, 170, 140)
+	atmosphere.Decay   = Color3.fromRGB(90, 110, 130)
+	atmosphere.Glare   = 0.1
+	atmosphere.Haze    = 1.5
+	atmosphere.Parent  = Lighting
 
 	local sky = Instance.new("Sky")
 	sky.SkyboxBk = "rbxassetid://159454299"
@@ -46,10 +45,10 @@ local function setupLighting()
 	sky.Parent    = Lighting
 
 	local bloom = Instance.new("BloomEffect")
-	bloom.Intensity  = 0.4
-	bloom.Size       = 24
-	bloom.Threshold  = 0.95
-	bloom.Parent     = Lighting
+	bloom.Intensity = 0.4
+	bloom.Size      = 24
+	bloom.Threshold = 0.95
+	bloom.Parent    = Lighting
 
 	local colorCorrection = Instance.new("ColorCorrectionEffect")
 	colorCorrection.Brightness = 0.02
@@ -67,10 +66,9 @@ local function setupLighting()
 end
 
 -- ─────────────────────────────────────────────
---  DAY CYCLE
+--  LIGHTING VALUES PER TIME OF DAY
+--  (called by TimeOfDayGui on each client)
 -- ─────────────────────────────────────────────
-local DAY_LENGTH_SECONDS = 600
-
 local function updateLightingForTime(clockTime)
 	if clockTime >= 6 and clockTime < 8 then
 		Lighting.Ambient        = Color3.fromRGB(100, 85, 80)
@@ -85,63 +83,67 @@ local function updateLightingForTime(clockTime)
 		Lighting.Brightness     = 1.8
 		Lighting.OutdoorAmbient = Color3.fromRGB(200, 130, 80)
 	else
-		-- Night: bright enough to see clearly, street lights add warmth
+		-- Night: bright enough to see clearly
 		Lighting.Ambient        = Color3.fromRGB(120, 125, 175)
 		Lighting.Brightness     = 2.0
 		Lighting.OutdoorAmbient = Color3.fromRGB(130, 140, 200)
 	end
 end
 
-local function startDayCycle()
-	task.spawn(function()
-		while true do
-			task.wait(0.5)
-			local hoursPerSecond = 24 / DAY_LENGTH_SECONDS
-			Lighting.ClockTime = (Lighting.ClockTime + hoursPerSecond * 0.5) % 24
-			updateLightingForTime(Lighting.ClockTime)
-		end
-	end)
-	print("[WorldBuilder] Day cycle started.")
-end
-
 -- ─────────────────────────────────────────────
---  TERRAIN
+--  TERRAIN & GROUND
+--  Clears terrain grass, replaces with a flat
+--  green Part — no grass blades ever appear on Parts.
 -- ─────────────────────────────────────────────
 local function buildTerrain()
 	local terrain = workspace.Terrain
-	terrain:Clear()
+	terrain:Clear()   -- wipe all terrain (removes ALL grass blades)
 
-	local TERRAIN_SIZE  = 1200
-	local TERRAIN_DEPTH = 4
+	-- Remove any old ground folder from a previous run
+	local oldGround = workspace:FindFirstChild("Ground")
+	if oldGround then oldGround:Destroy() end
 
-	-- Grass terrain with decoration off = flat green ground, no tall blades
-	terrain:FillBlock(
-		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
-		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
-		Enum.Material.Grass
-	)
-	workspace.Terrain.Decoration = false
+	local groundFolder = Instance.new("Folder")
+	groundFolder.Name   = "Ground"
+	groundFolder.Parent = workspace
 
+	-- Flat green ground Part — Grass material on a Part gives a
+	-- smooth green surface with ZERO blade decoration
+	local ground = Instance.new("Part")
+	ground.Name         = "GroundPlane"
+	ground.Size         = Vector3.new(2400, 2, 2400)
+	ground.Position     = Vector3.new(0, -1, 0)   -- top surface sits at y=0
+	ground.Anchored     = true
+	ground.BrickColor   = BrickColor.new("Bright green")
+	ground.Material     = Enum.Material.Grass
+	ground.TopSurface   = Enum.SurfaceType.Smooth
+	ground.BottomSurface = Enum.SurfaceType.Smooth
+	ground.CanCollide   = true
+	ground.CastShadow   = false
+	ground.Parent       = groundFolder
+
+	-- Water area for watercraft luxury items
 	terrain:FillBlock(
 		CFrame.new(600, -2, 0),
 		Vector3.new(200, 4, 600),
 		Enum.Material.Water
 	)
 
+	-- Pavement roads between plots
+	local spacing = GameConfig.Plots.plotSpacing
 	local plotsPerRow = 5
-	local spacing     = GameConfig.Plots.plotSpacing
 
 	terrain:FillBlock(
-		CFrame.new(0, 0.1, spacing / 2),
-		Vector3.new(TERRAIN_SIZE, 1, 20),
+		CFrame.new(0, 0.05, spacing / 2),
+		Vector3.new(2400, 1, 20),
 		Enum.Material.Pavement
 	)
 
 	for col = 0, plotsPerRow do
 		local x = (col * spacing) - ((plotsPerRow - 1) * spacing / 2) - spacing / 2
 		terrain:FillBlock(
-			CFrame.new(x, 0.1, 0),
-			Vector3.new(20, 1, TERRAIN_SIZE),
+			CFrame.new(x, 0.05, 0),
+			Vector3.new(20, 1, 2400),
 			Enum.Material.Pavement
 		)
 	end
@@ -188,15 +190,15 @@ local function upgradePlotFloors()
 
 		local function makeBorder(name, size, offset, color, material)
 			local border = Instance.new("Part")
-			border.Name       = name
-			border.Size       = size
-			border.Position   = plotPos + offset
-			border.Anchored   = true
-			border.BrickColor = color
-			border.Material   = material
-			border.TopSurface = Enum.SurfaceType.Smooth
-			border.CanCollide = true
-			border.Parent     = plotModel
+			border.Name        = name
+			border.Size        = size
+			border.Position    = plotPos + offset
+			border.Anchored    = true
+			border.BrickColor  = color
+			border.Material    = material
+			border.TopSurface  = Enum.SurfaceType.Smooth
+			border.CanCollide  = true
+			border.Parent      = plotModel
 		end
 
 		local bw = 4
@@ -204,19 +206,19 @@ local function upgradePlotFloors()
 		makeBorder("BorderNorth",
 			Vector3.new(plotSize.X + bw*2, bh, bw),
 			Vector3.new(0, bh/2, -(plotSize.Z/2 + bw/2)),
-			BrickColor.new("Bright green"), Enum.Material.Grass)
+			BrickColor.new("Bright green"), Enum.Material.SmoothPlastic)
 		makeBorder("BorderSouth",
 			Vector3.new(plotSize.X + bw*2, bh, bw),
 			Vector3.new(0, bh/2, plotSize.Z/2 + bw/2),
-			BrickColor.new("Bright green"), Enum.Material.Grass)
+			BrickColor.new("Bright green"), Enum.Material.SmoothPlastic)
 		makeBorder("BorderEast",
 			Vector3.new(bw, bh, plotSize.Z),
 			Vector3.new(plotSize.X/2 + bw/2, bh/2, 0),
-			BrickColor.new("Bright green"), Enum.Material.Grass)
+			BrickColor.new("Bright green"), Enum.Material.SmoothPlastic)
 		makeBorder("BorderWest",
 			Vector3.new(bw, bh, plotSize.Z),
 			Vector3.new(-(plotSize.X/2 + bw/2), bh/2, 0),
-			BrickColor.new("Bright green"), Enum.Material.Grass)
+			BrickColor.new("Bright green"), Enum.Material.SmoothPlastic)
 
 		for _, child in ipairs(plotModel:GetChildren()) do
 			if child.Name:find("Wall") and child:IsA("BasePart") then
@@ -245,7 +247,6 @@ local function addTrees()
 		scale = scale or 1
 
 		local trunk = Instance.new("Part")
-		trunk.Name           = "Trunk"
 		trunk.Size           = Vector3.new(2*scale, 8*scale, 2*scale)
 		trunk.Position       = Vector3.new(x, 4*scale, z)
 		trunk.Anchored       = true
@@ -261,7 +262,7 @@ local function addTrees()
 		leaves.Position      = Vector3.new(x, 12*scale, z)
 		leaves.Anchored      = true
 		leaves.BrickColor    = BrickColor.new("Bright green")
-		leaves.Material      = Enum.Material.Grass
+		leaves.Material      = Enum.Material.SmoothPlastic
 		leaves.TopSurface    = Enum.SurfaceType.Smooth
 		leaves.BottomSurface = Enum.SurfaceType.Smooth
 		leaves.Parent        = treeFolder
@@ -270,8 +271,8 @@ local function addTrees()
 	local positions = {
 		{-500, -400}, {-500, -200}, {-500, 0}, {-500, 200}, {-500, 400},
 		{500,  -400}, {500,  -200}, {500,  0}, {500,  200}, {500,  400},
-		{-300, -500}, {-100, -500}, {100,  -500}, {300, -500},
-		{-300,  500}, {-100,  500}, {100,   500}, {300,  500},
+		{-300, -500}, {-100, -500}, {100, -500}, {300, -500},
+		{-300,  500}, {-100,  500}, {100,  500}, {300,  500},
 		{-220, -260}, {0, -260}, {220, -260}, {440, -260},
 		{-220,  260}, {0,  260}, {220,  260}, {440,  260},
 		{-380, 150}, {380, -150}, {-380, -150}, {380, 150},
@@ -299,7 +300,6 @@ local function addStreetLights()
 
 	local function makeStreetLight(x, z)
 		local post = Instance.new("Part")
-		post.Name       = "Post"
 		post.Size       = Vector3.new(1, 16, 1)
 		post.Position   = Vector3.new(x, 8, z)
 		post.Anchored   = true
@@ -309,7 +309,6 @@ local function addStreetLights()
 		post.Parent     = lightFolder
 
 		local bulb = Instance.new("Part")
-		bulb.Name       = "Bulb"
 		bulb.Size       = Vector3.new(2, 1, 2)
 		bulb.Position   = Vector3.new(x, 16, z)
 		bulb.Anchored   = true
@@ -325,7 +324,6 @@ local function addStreetLights()
 		pointLight.Parent     = bulb
 	end
 
-	-- Invisible fill lights high in the sky so the whole map is lit at night
 	local function makeFillLight(x, z)
 		local anchor = Instance.new("Part")
 		anchor.Size         = Vector3.new(1, 1, 1)
@@ -354,7 +352,6 @@ local function addStreetLights()
 		end
 	end
 
-	-- 9 fill lights covering the whole map
 	for _, pos in ipairs({
 		{-400, -400}, {0, -400}, {400, -400},
 		{-400,    0}, {0,    0}, {400,    0},
@@ -376,5 +373,5 @@ buildTerrain()
 upgradePlotFloors()
 addTrees()
 addStreetLights()
--- Day cycle is handled by TimeOfDayGui on each client to avoid lighting conflicts
+-- Day/night cycle is handled by TimeOfDayGui on each client
 print("[WorldBuilder] World build complete.")
