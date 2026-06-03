@@ -104,30 +104,22 @@ end
 -- ─────────────────────────────────────────────
 local function buildTerrain()
 	local terrain = workspace.Terrain
-	terrain:Clear()   -- wipe all terrain (removes ALL grass blades)
+	terrain:Clear()
 
-	-- Remove any old ground folder from a previous run
+	-- Remove old ground folder if present
 	local oldGround = workspace:FindFirstChild("Ground")
 	if oldGround then oldGround:Destroy() end
 
-	local groundFolder = Instance.new("Folder")
-	groundFolder.Name   = "Ground"
-	groundFolder.Parent = workspace
+	local TERRAIN_SIZE  = 1200
+	local TERRAIN_DEPTH = 4
 
-	-- Flat green ground Part — SmoothPlastic gives a perfectly flat
-	-- uniform surface with zero texture and zero grass blades
-	local ground = Instance.new("Part")
-	ground.Name          = "GroundPlane"
-	ground.Size          = Vector3.new(2400, 2, 2400)
-	ground.Position      = Vector3.new(0, -1, 0)
-	ground.Anchored      = true
-	ground.BrickColor    = BrickColor.new("Bright green")
-	ground.Material      = Enum.Material.SmoothPlastic
-	ground.TopSurface    = Enum.SurfaceType.Smooth
-	ground.BottomSurface = Enum.SurfaceType.Smooth
-	ground.CanCollide    = true
-	ground.CastShadow    = false
-	ground.Parent        = groundFolder
+	-- Grass terrain for green colour.
+	-- TerrainFix LocalScript disables blade decoration on each client.
+	terrain:FillBlock(
+		CFrame.new(0, -TERRAIN_DEPTH / 2, 0),
+		Vector3.new(TERRAIN_SIZE, TERRAIN_DEPTH, TERRAIN_SIZE),
+		Enum.Material.Grass
+	)
 
 	-- Water area for watercraft luxury items
 	terrain:FillBlock(
@@ -137,12 +129,12 @@ local function buildTerrain()
 	)
 
 	-- Pavement roads between plots
-	local spacing = GameConfig.Plots.plotSpacing
+	local spacing     = GameConfig.Plots.plotSpacing
 	local plotsPerRow = 5
 
 	terrain:FillBlock(
 		CFrame.new(0, 0.05, spacing / 2),
-		Vector3.new(2400, 1, 20),
+		Vector3.new(TERRAIN_SIZE, 1, 20),
 		Enum.Material.Pavement
 	)
 
@@ -150,7 +142,7 @@ local function buildTerrain()
 		local x = (col * spacing) - ((plotsPerRow - 1) * spacing / 2) - spacing / 2
 		terrain:FillBlock(
 			CFrame.new(x, 0.05, 0),
-			Vector3.new(20, 1, 2400),
+			Vector3.new(20, 1, TERRAIN_SIZE),
 			Enum.Material.Pavement
 		)
 	end
