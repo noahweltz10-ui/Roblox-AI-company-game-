@@ -92,8 +92,8 @@ local function updateLightingForTime(clockTime)
 	else
 		-- Night: bright enough to see clearly
 		Lighting.Ambient        = Color3.fromRGB(120, 125, 175)
-		Lighting.Brightness     = 2.0
-		Lighting.OutdoorAmbient = Color3.fromRGB(130, 140, 200)
+		Lighting.Brightness     = 4.0
+		Lighting.OutdoorAmbient = Color3.fromRGB(170, 180, 240)
 	end
 end
 
@@ -317,9 +317,9 @@ local function addStreetLights()
 		bulb.Parent     = lightFolder
 
 		local pointLight = Instance.new("PointLight")
-		pointLight.Brightness = 10
+		pointLight.Brightness = 20
 		pointLight.Color      = Color3.fromRGB(255, 235, 180)
-		pointLight.Range      = 80
+		pointLight.Range      = 120
 		pointLight.Parent     = bulb
 	end
 

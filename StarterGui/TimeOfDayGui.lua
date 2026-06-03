@@ -87,9 +87,9 @@ local function updateLightingForTime(clockTime)
 	else
 		period = "night"
 		target = {
-			Ambient        = Color3.fromRGB(120, 125, 175),
-			Brightness     = 2.0,
-			OutdoorAmbient = Color3.fromRGB(130, 140, 200),
+			Ambient        = Color3.fromRGB(160, 165, 220),
+			Brightness     = 4.0,
+			OutdoorAmbient = Color3.fromRGB(170, 180, 240),
 		}
 	end
 
